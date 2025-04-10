@@ -1,63 +1,54 @@
-﻿using Timer = System.Timers.Timer;
-
-namespace LAB_14
+﻿namespace LAB_14
 {
-    internal class Program
+    internal partial class Program
     {
-
         private static CancellationTokenSource cts = new CancellationTokenSource();
         private static CancellationToken token = cts.Token;
-        static void Main(string[] args)
+
+        private static async Task Main(string[] args)
         {
+            var mas = new List<int> { 1, 4, 8, 9, 2, 5, 1, 7, 4 };
 
-            var timer = new Timer();
-            timer.Interval = 10000;
+            await Task.WhenAll(LogMas(mas), AddMas(mas, 10));
 
-            timer.Elapsed += Timer_Elapsed;
-            timer.Elapsed += (s, e) =>
-            {
-                Console.WriteLine("Timer 2 handler");
-            };
-
-            timer.AutoReset = false;
-            timer.Start();
-
-            var thread = new Thread(PrintThread);
-
-            thread.Start();
-
-            var key = Console.ReadKey();
-            
-            
-            if(key.KeyChar == 'e')
-            {
-                cts.Cancel();
-            }
-
-
-            thread.Join();
+            Console.WriteLine("A");
+            Console.ReadLine();
         }
 
-        private static void PrintThread()
+        private static SemaphoreSlim semaphore = new SemaphoreSlim(1,1);
+        private static object obj = new();
+
+        private static async Task AddMas(List<int> mas, int value)
         {
-            while (true)
-            {
-                if (token.IsCancellationRequested)
-                {
-                    break;
-                }
 
+            await Task.Delay(5000);
 
-                Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
-                Thread.Sleep(1000);
-            }
+            Console.WriteLine("Starting insert");
 
-            Console.WriteLine($"Thread {Thread.CurrentThread.ManagedThreadId} end");
+            semaphore.Wait();
+
+            mas.Add(value);
+
+            semaphore.Release();
+
+            Console.WriteLine("Inserted");
         }
 
-        private static void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+        private static async Task LogMas(List<int> mas)
         {
-            cts.Cancel();
+            Console.WriteLine("Starting loop");
+
+            semaphore.Wait();
+
+            foreach (var i in mas)
+            {
+                Console.WriteLine(i);
+                await Task.Delay(1000);
+            }
+
+            semaphore.Release();
+
+            Console.WriteLine("Finished loop");
         }
     }
 }
