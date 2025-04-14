@@ -30,7 +30,7 @@
 
             var res = a switch
             {
-                "BMW" => "Germany",
+                1 => "Germany",
                 2 => "Thursday",
                 3 => "Thursday",
                 4 => "Thursday",

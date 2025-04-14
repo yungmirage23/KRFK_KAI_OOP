@@ -36,7 +36,7 @@
         
         public void B()
         {
-            A();
+            //A();
         }
         
         public static void TestMethod()

@@ -18,7 +18,7 @@ namespace LAB_10
         private static void Main(string[] args)
         {
             var que = new Queue<string>();
-            que.Enqueue()
+            //que.Enqueue();
             var str = string.Join(",", que.ToArray());
 
             var queue = new Queue<int>();
