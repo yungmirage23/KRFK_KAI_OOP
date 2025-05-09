@@ -4,48 +4,54 @@
     {
         static void Main(string[] args)
         {
-
             var car = new Car(200);
 
             car.Accelerate(50);
             car.Accelerate(50);
             car.Accelerate(50);
-
-            car.Decelerate(150);
-            car.Decelerate(50);
+            car.Accelerate(51);
 
 
             var student = new Student();
-
+            var name = student.Name;
             student.Name = "Dmytro";
 
-            student.Age = 121;
+            var repository = new BankAccountRepository();
 
+            var account = new BankAccount
+            {
+                Id = 125124,
+                FirstName = "Dmytro",
+                LastName = "Kryvenko",
+                Balance = 1000
+            };
+            var account2 = new BankAccount
+            {
+                Id = 241512,
+                FirstName = "Anton",
+                LastName = "Levenyuk",
+                Balance = 1000
+            };
 
-            var studentName = student.Name;
+            var account3 = new BankAccount
+            {
+                Id = 125124,
+                FirstName = "123",
+                LastName = "321",
+                Balance = 0
+            };
 
-            var studentAge = student.Age;
+            repository.Add(account);
 
-            var bankAccountRepository = new BankAccountRepository();
-
-            var account = new BankAccount(15121312, "Dmytro", "Kryvenko", 0);
-            var account2 = new BankAccount(12134313, "Oleh", "123", 0);
-
-            bankAccountRepository.Add(account);
-            bankAccountRepository.Add(account2);
-
-            bankAccountRepository.RemoveById(15121312);
-
+            repository.Add(account2);
             try
             {
-                var foundAccount = bankAccountRepository.GetById(15121312);
+                repository.Add(account3);
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                Console.WriteLine("Account not found");
-                Console.WriteLine(ex);
+                Console.WriteLine(ex.Message);
             }
-
         }
     }
 }

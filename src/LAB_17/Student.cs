@@ -14,21 +14,15 @@
             }
         }
 
-        public int Age
-        {
-            get { return age; }
-            set
-            {
-                if(value < 0 || value > 120)
-                {
-                    throw new ArgumentOutOfRangeException("Age must be between 0 and 120");
-                }
-                age = value;
-            }
-        }
+        public int Age => age;
 
 
         private int age;
         private string name;
+
+        public Student()
+        {
+            age = 23;
+        }
     }
 }

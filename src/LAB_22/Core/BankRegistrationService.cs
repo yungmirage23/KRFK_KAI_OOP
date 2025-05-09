@@ -1,13 +1,12 @@
-﻿using LAB_18.Core.Logging;
-using LAB_18.Infrastructure.Data;
+﻿using Microsoft.Extensions.Logging;
 
-namespace LAB_18.Core
+namespace LAB_22.Core
 {
     public class BankRegistrationService
     {
         private readonly IBankAccountRepository _bankAccountRepository;
-        private readonly ILogger _logger;
-        public BankRegistrationService(ILogger logger, IBankAccountRepository bankAccountRepository)
+        private readonly ILogger<BankRegistrationService> _logger;
+        public BankRegistrationService(ILogger<BankRegistrationService> logger, IBankAccountRepository bankAccountRepository)
         {
             _bankAccountRepository = bankAccountRepository;
             _logger = logger;
@@ -18,7 +17,7 @@ namespace LAB_18.Core
         {
             var account = new BankAccount(_idCounter++, firstName, secondName, balance);
             await _bankAccountRepository.Add(account);
-            _logger.Log($"Registered account id{account.Id} for {firstName} {secondName}");
+            _logger.LogInformation($"Registered account id{account.Id} for {firstName} {secondName}");
         }
     }
 }

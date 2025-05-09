@@ -1,4 +1,4 @@
-﻿namespace LAB_18.Core
+﻿namespace LAB_22.Core
 {
     public interface IBankAccountRepository
     {

@@ -1,6 +1,6 @@
-﻿using LAB_18.Core;
+﻿using LAB_22.Core;
 
-namespace LAB_18.Infrastructure.Data
+namespace LAB_22.Infrastructure.Data
 {
     public class InMemoryBankAccountRepository : IBankAccountRepository
     {

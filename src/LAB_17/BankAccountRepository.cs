@@ -2,46 +2,45 @@
 {
     public class BankAccountRepository
     {
-        public IReadOnlyCollection<BankAccount> BankAccounts => bankAccounts.AsReadOnly();
         private List<BankAccount> bankAccounts = new();
 
-        public BankAccountRepository()
+        public void Add(BankAccount bankAccount)
         {
-        }
-
-       
-        public void Add(BankAccount account)
-        {
-            var existAccount = bankAccounts.FirstOrDefault(x => x.Id == account.Id);
-            if (existAccount != null)
+            var accountWithSameId = bankAccounts.FirstOrDefault(x => x.Id == bankAccount.Id);
+            if(accountWithSameId != null)
             {
-                throw new InvalidOperationException($"Account with id{account.Id} already exist");
+                throw new ArgumentException($"Account with id{bankAccount.Id} already exists");
             }
 
-            bankAccounts.Add(account);
+            bankAccounts.Add(bankAccount);
+
+            Console.WriteLine($"Bank account with id{bankAccount.Id} was added");
         }
 
-        public void RemoveById(int accountId)
+        public BankAccount GetById(int bankAccountId)
         {
-            var existAccount = bankAccounts.FirstOrDefault(x=>x.Id == accountId);
-            if (existAccount == null)
+            var account = bankAccounts.FirstOrDefault(x=> x.Id == bankAccountId);
+            if (account == null)
             {
-                throw new InvalidOperationException($"Account with id{accountId} not found");
+                throw new ArgumentNullException($"Account with id{bankAccountId} not found");
             }
 
-
-            bankAccounts.Remove(existAccount);
+            return account;
         }
-
-        public BankAccount GetById(int accountId)
+        public void RemoveById(int bankAccountId)
         {
-            var existAccount = bankAccounts.First(x => x.Id == accountId);
+            Console.WriteLine($"Removing bank account with id{bankAccountId}...");
 
-            if (existAccount == null)
+            var accountIndex = bankAccounts.FindIndex(x => x.Id == bankAccountId);
+
+            if (bankAccountId == -1)
             {
-                throw new InvalidOperationException($"Account with id{accountId} not found");
+                throw new ArgumentNullException($"Account with id{bankAccountId} not found");
             }
-            return existAccount;
+
+            bankAccounts.RemoveAt(accountIndex);
+
+            Console.WriteLine($"Bank account with id{bankAccountId} was removed");
         }
 
     }

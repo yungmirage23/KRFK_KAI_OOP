@@ -6,7 +6,7 @@
 
         public void Log(string message)
         {
-            var logMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} - {message}";
+            var logMessage = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}";
             File.AppendAllText(_filePath, logMessage + Environment.NewLine);
         }
     }

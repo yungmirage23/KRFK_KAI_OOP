@@ -1,5 +1,10 @@
 ﻿namespace LAB_17
 {
-
-    public record BankAccount(int Id, string FirstName, string SecondName, decimal Balance);
+    public class BankAccount
+    {
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public decimal Balance { get; set; }
+    }
 }
