@@ -2,21 +2,24 @@
 using LAB_30_31.Models;
 using Microsoft.EntityFrameworkCore;
 
-var dbContextOptionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-dbContextOptionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=1234");
-var dbContextOptions = dbContextOptionsBuilder.Options;
-
-using (var dbContext = new ApplicationDbContext(dbContextOptions))
+using (var dbContext = new ApplicationDbContext())
 {
-    SeedCategories(dbContext);
-    SeedBooks(dbContext);
+    //SeedAuthors(dbContext);
+    //SeedCategories(dbContext);
+    //SeedBooks(dbContext);
 
 
     var books = dbContext.Books
-        .Include(n=>n.Category)
-        .ToList();
+        .Include(n => n.Category)
+        .Include(n => n.Author).AsEnumerable();
 
-    dbContext.SaveChanges();
+    Console.WriteLine("Id | Title | Year | Category Name" +
+            "| Author Name | Author Surname");
+    foreach (var book in books)
+    {
+        Console.WriteLine($"{book.Id} | {book.Title} | {book.Year} | {book.Category.Name}" +
+            $"| {book.Author.Name} | {book.Author.Surname}");
+    }
 }
 
 
@@ -41,6 +44,10 @@ static void SeedAuthors(ApplicationDbContext dbContext)
     dbContext.Authors.Add(new Author() { Name = "Author4", Surname = "Author4" });
     dbContext.Authors.Add(new Author() { Name = "Author5", Surname = "Author5" });
     dbContext.Authors.Add(new Author() { Name = "Author6", Surname = "Author6" });
+    dbContext.Authors.Add(new Author() { Name = "Author7", Surname = "Author7" });
+    dbContext.Authors.Add(new Author() { Name = "Author8", Surname = "Author8" });
+    dbContext.Authors.Add(new Author() { Name = "Author9", Surname = "Author9" });
+    dbContext.Authors.Add(new Author() { Name = "Author10", Surname = "Author10" });
 
     dbContext.SaveChanges();
 }
@@ -53,7 +60,7 @@ static void SeedBooks(ApplicationDbContext dbContext)
         var book = new Book()
         {
             Title = $"Book {i}",
-            AuthorId = i,
+            AuthorId = i % 6 + 1,
             Year = 2000 + i,
             CategoryId = i % 6 + 1 // Assuming you have 6 categories
         };
